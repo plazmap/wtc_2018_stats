@@ -2,7 +2,7 @@ import React from "react";
 import TeamResult from "./TeamResult";
 import { Table } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import Selector from "./Selector";
+import Selector from "../Selector/Selector";
 import PlayerResult from "./PlayerResult";
 
 class Resulter extends React.Component {

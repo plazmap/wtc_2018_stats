@@ -1,4 +1,4 @@
-import Rankinger from "./components/Rankinger";
+import Rankinger from "./components/Rankinger/Rankinger";
 
 export function indexTeams(teams){
     let teamsIndex = {};

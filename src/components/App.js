@@ -2,14 +2,14 @@ import React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import firebase from 'firebase';
 import {firebaseApp} from "./../base";
-import Home from "./Home";
+import Home from "./Home/Home";
 import NotFound from "./NotFound";
-import Resulter from "./Resulter";
-import Explorer from "./Explorer";
+import Resulter from "./Resulter/Resulter";
+import Explorer from "./Explorer/Explorer";
 import Navbarplop from "./Navbarplop";
 import {createFlagTags, indexLists, indexPlayers, indexTeams, createRankingerData} from "./../DataHandlers";
 import Waiter from "./Waiter";
-import Rankinger from "./Rankinger";
+import Rankinger from "./Rankinger/Rankinger";
 
 class App extends React.Component {
 
@@ -40,6 +40,7 @@ class App extends React.Component {
          
           
           let {teams, players, lists} = this.state.data;
+          
           createFlagTags(teams);
 
           let teamsIndex = indexTeams(teams);

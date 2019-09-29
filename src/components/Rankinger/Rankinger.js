@@ -1,5 +1,5 @@
 import React from "react";
-import Selector from "./Selector";
+import Selector from "../Selector/Selector";
 import { Table } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Flag from 'react-world-flags';
