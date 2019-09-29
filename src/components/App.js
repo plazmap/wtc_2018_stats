@@ -7,7 +7,7 @@ import NotFound from "./NotFound";
 import Resulter from "./Resulter/Resulter";
 import Explorer from "./Explorer/Explorer";
 import Navbarplop from "./Navbarplop";
-import {createFlagTags, indexLists, indexPlayers, indexTeams, createRankingerData} from "./../DataHandlers";
+import {createFlagTags, indexLists, indexPlayers, indexTeams, createRankingerData, createFactions, createThemes, createCasters, createCountries} from "./../DataHandlers";
 import Waiter from "./Waiter";
 import Rankinger from "./Rankinger/Rankinger";
 
@@ -17,6 +17,8 @@ class App extends React.Component {
       super(props);
       this.state = {
         data: {},
+        indexes:{},
+        listings:{},
         resulter:{
           roundSelected:"6",
           zonesSelected:[],
@@ -32,35 +34,45 @@ class App extends React.Component {
     }
     componentDidMount() {
         firebase.database().ref("yummyData/").once("value").then(snapshot => {
-          let firebaseData = snapshot.val();
-            this.setState({
-              data: firebaseData
-            });
-        }).then(res => {
-         
+          let data = snapshot.val();
+            
+          let {teams, players, lists} = data;
           
-          let {teams, players, lists} = this.state.data;
-          
-          createFlagTags(teams);
+          createFlagTags(teams); 
 
+          
+          let factionsList = createFactions(data);
+          let themesList = createThemes(data);
+          let castersList = createCasters(data);
+          let countriesList = createCountries(data);
+          
           let teamsIndex = indexTeams(teams);
           let playersIndex= indexPlayers(players);
           let listsIndex= indexLists(lists);
-
-          let rankingerData = createRankingerData(this.state.data);
           
-
-          
-          let rankinger = {...this.state.rankinger}
+          let rankingerData = createRankingerData(data);
+                    
+          let rankinger = {...this.state.rankinger};
           rankinger.data = rankingerData;
-          this.setState({rankinger});
-         
+
+          let indexes={...this.state.indexes};
+          indexes.lists = listsIndex;
+          indexes.players = playersIndex;
+          indexes.teams = teamsIndex;
+
+          let listings={...this.state.listings}
+          listings.faction = factionsList;
+          listings.theme = themesList;
+          listings.caster = castersList;
+          listings.country = countriesList;
+
           let loadingDone =true;
           this.setState({
-            teamsIndex,
-            listsIndex,
-            playersIndex,
-            loadingDone,
+            data,
+            rankinger,
+            indexes,
+            listings,
+            loadingDone
           });
         })
       }

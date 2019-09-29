@@ -59,15 +59,59 @@ export function createRankingerData(data){
   })
 
 
-
-
   let rankingerData = {};
   rankingerData.teams = teams;
   rankingerData.players = players;
   return rankingerData;
 }
 
-//THIS SUCKS. Has to be change with setState.
+
+export function createFactions(data){
+  
+  let list = {};
+  Object.keys(data.players).forEach(playerId => {
+      if (!(list[data.players[playerId].faction])) {
+        list[data.players[playerId].faction] = [];
+      }
+      list[data.players[playerId].faction].push(playerId)
+    })
+  
+    return list;
+
+  }
+  
+  export function createThemes(data){
+    let list = {};
+    Object.keys(data.lists).forEach(listId => {
+      if (!(list[data.lists[listId].theme])) {
+        list[data.lists[listId].theme] = [];
+      }
+      list[data.lists[listId].theme].push(listId)
+    })
+    return list;
+}
+
+export function createCasters(data){
+  let list = {};
+  Object.keys(data.lists).forEach(listId => {
+    if (!(list[data.lists[listId].caster])) {
+      list[data.lists[listId].caster] = [];
+    }
+    list[data.lists[listId].caster].push(listId)
+  })
+  return list;
+}
+export function createCountries(data){
+  let list = {};
+  Object.keys(data.teams).forEach(teamId => {
+    if (!(list[data.teams[teamId].flag])){
+      list[data.teams[teamId].flag] = [];
+    }
+    list[data.teams[teamId].flag].push(teamId);
+  })
+  return list;
+}
+
 export function createFlagTags(teams){
 
     teams[1439].flag = "124";
@@ -135,4 +179,3 @@ export function createFlagTags(teams){
     teams[1502].flag = "826";
     teams[1503].flag = "528";
 }
-

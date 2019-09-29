@@ -6,7 +6,7 @@ class Explorer extends React.Component {
     
   render () {
     return (
-      <p>Explorer</p>
+      <p>plop</p>
     )
   }
 }
