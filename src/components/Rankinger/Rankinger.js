@@ -18,12 +18,12 @@ class Rankinger extends React.Component {
     if (typeSelected && (!params)){
       this.props.history.push("/rankings/"+ typeSelected);
     }
-    else if ((params) && typeSelected == params){
+    else if ((params) && typeSelected === params){
 
     }else if (expectedParams.includes(params)){
       changeType(params);
     }
-    else if(typeSelected != "0"){
+    else if(typeSelected !== "0"){
       
     }else{
       changeType("teams");
@@ -68,7 +68,7 @@ class Rankinger extends React.Component {
             <tr>
                 <th style={{width:"5%"}}>Rank</th>
                 <th style={{width:"5%", color:"white"}}>Flag flag flag</th>
-                <th style={{width:"20%"}}></th>
+                <th style={{width:"30%"}}></th>
                 <th onClick={()=>changeSort("wins")} style={{width:"10%", cursor:"pointer"}}>Total Wins</th>
               {["countries","lists","casters","themes","factions"].includes(typeSelected)&&
                 <th style={{width:"10%", cursor:"pointer"}}>Times Played</th>

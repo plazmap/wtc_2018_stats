@@ -24,7 +24,7 @@ class Resulter extends React.Component {
     }else if (expectedParams.includes(params)){
       changeRound(params.slice(-1));
     }
-    else if(roundSelected != "0"){
+    else if(roundSelected !== "0"){
       
     }else{
       changeRound("6");
@@ -80,7 +80,7 @@ class Resulter extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(data.results[round]).filter(key => key != "round").map(key => {
+            {Object.keys(data.results[round]).filter(key => key !== "round").map(key => {
               let winnerTeam = data.teams[data.results[round][key].winner];
               let loserTeam = data.teams[data.results[round][key].loser];
               let zone = data.results[round][key].zone;

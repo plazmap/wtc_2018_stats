@@ -1,5 +1,3 @@
-import Rankinger from "./components/Rankinger/Rankinger";
-
 export function indexTeams(teams){
     let teamsIndex = {};
     Object.keys(teams).forEach(team => {
@@ -29,9 +27,6 @@ export function indexLists(lists){
     return listsIndex;
 }
 
-export function indexCountries(){
-
-}
 
 export function createRankingerData(data){
   let teams = Object.keys(data.teams).map(teamKey => {
@@ -45,7 +40,7 @@ export function createRankingerData(data){
     team["flag"] = data.teams[teamKey].flag;
     return team;
   });
-
+  
   let players = Object.keys(data.players).filter(playerId => data.players[playerId].results).map(playerKey => {
     let player = {};
     let opponentsId = Object.keys(data.players[playerKey].results).map(resultKey => data.players[playerKey].results[resultKey].opponentId);
@@ -53,12 +48,12 @@ export function createRankingerData(data){
     player["name"] = data.players[playerKey].name;
     player["wins"] = Object.keys(data.players[playerKey].results).map(roundKey => data.players[playerKey].results[roundKey].win).reduce((a,b) => a+b);
     player["secondSorter"] = "playerSos";
-    player["teamSos"] = teams.filter(team => team.id == data.players[playerKey].teamId)[0].teamSos;
+    player["teamSos"] = teams.filter(team => team.id === data.players[playerKey].teamId)[0].teamSos;
     player["flag"] = data.teams[data.players[playerKey].teamId].flag;
     return player;
   })
-
-
+  
+  
   let rankingerData = {};
   rankingerData.teams = teams;
   rankingerData.players = players;
@@ -70,14 +65,14 @@ export function createFactions(data){
   
   let list = {};
   Object.keys(data.players).forEach(playerId => {
-      if (!(list[data.players[playerId].faction])) {
-        list[data.players[playerId].faction] = [];
-      }
-      list[data.players[playerId].faction].push(playerId)
-    })
+    if (!(list[data.players[playerId].faction])) {
+      list[data.players[playerId].faction] = [];
+    }
+    list[data.players[playerId].faction].push(playerId)
+  })
   
-    return list;
-
+  return list;
+  
   }
   
   export function createThemes(data){
@@ -89,28 +84,70 @@ export function createFactions(data){
       list[data.lists[listId].theme].push(listId)
     })
     return list;
+  }
+  
+  export function createCasters(data){
+    let list = {};
+    Object.keys(data.lists).forEach(listId => {
+      if (!(list[data.lists[listId].caster])) {
+        list[data.lists[listId].caster] = [];
+      }
+      list[data.lists[listId].caster].push(listId)
+    })
+    return list;
+  }
+  export function createCountries(data){
+    let list = {};
+    Object.keys(data.teams).forEach(teamId => {
+      if (!(list[data.teams[teamId].flag])){
+        list[data.teams[teamId].flag] = [];
+      }
+      list[data.teams[teamId].flag].push(teamId);
+    })
+    return list;
+  }
+  
+export function createDataCountries(data){
+  let countries = {};
+    Object.keys(data.teams).forEach(teamId => {
+      if (!(countries[data.teams[teamId].flag])){
+        countries[data.teams[teamId].flag] = {};
+        countries[data.teams[teamId].flag]["teams"] = [];
+      }
+      countries[data.teams[teamId].flag].teams.push(teamId);
+    });
+    countries["124"] && (countries["124"].name = "Canada");
+    countries["036"] && (countries["036"].name = "Australia");
+    countries["040"] && (countries["040"].name = "Austria");
+    countries["056"] && (countries["056"].name = "Belgium");
+    countries["203"] && (countries["203"].name = "Czech Republic");
+    countries["208"] && (countries["208"].name = "Denmark");
+    countries["233"] && (countries["233"].name = "Estonia");
+    countries["246"] && (countries["246"].name = "Finland");
+    countries["250"] && (countries["250"].name = "France");
+    countries["276"] && (countries["276"].name = "Germany");
+    countries["300"] && (countries["300"].name = "Greece");
+    countries["348"] && (countries["348"].name = "Hungary");
+    countries["372"] && (countries["372"].name = "Ireland");
+    countries["380"] && (countries["380"].name = "Italy");
+    countries["528"] && (countries["528"].name = "Netherlands");
+    countries["554"] && (countries["554"].name = "New Zealand");
+    countries["578"] && (countries["578"].name = "Norway");
+    countries["616"] && (countries["616"].name = "Poland");
+    countries["620"] && (countries["620"].name = "Portugal");
+    countries["643"] && (countries["643"].name = "Russian Federation");
+    countries["705"] && (countries["705"].name = "Slovenia");
+    countries["724"] && (countries["724"].name = "Spain");
+    countries["752"] && (countries["752"].name = "Sweden");
+    countries["756"] && (countries["756"].name = "Switzerland");
+    countries["804"] && (countries["804"].name = "Ukraine");
+    countries["826"] && (countries["826"].name = "United Kingdom");
+    countries["840"] && (countries["840"].name = "United States of America");
+  
+    
+    return countries;
 }
 
-export function createCasters(data){
-  let list = {};
-  Object.keys(data.lists).forEach(listId => {
-    if (!(list[data.lists[listId].caster])) {
-      list[data.lists[listId].caster] = [];
-    }
-    list[data.lists[listId].caster].push(listId)
-  })
-  return list;
-}
-export function createCountries(data){
-  let list = {};
-  Object.keys(data.teams).forEach(teamId => {
-    if (!(list[data.teams[teamId].flag])){
-      list[data.teams[teamId].flag] = [];
-    }
-    list[data.teams[teamId].flag].push(teamId);
-  })
-  return list;
-}
 
 export function createFlagTags(teams){
 

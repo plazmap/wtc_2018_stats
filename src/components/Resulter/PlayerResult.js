@@ -18,7 +18,7 @@ class PlayerResult extends React.Component {
 
     render(){
         const Class = this.state.isHovered ? "bg-light" : "bg-white";
-        const {index, player1Name, player2Name, result, faction1, faction2, list1, list2, theme1, theme2, caster1, caster2, playersSelected, key, updatePlayers} = this.props;
+        const {index, player1Name, player2Name, result, faction1, faction2, theme1, theme2, caster1, caster2, playersSelected, updatePlayers} = this.props;
 
         return (
             <React.Fragment> 

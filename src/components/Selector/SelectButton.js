@@ -5,7 +5,7 @@ class SelectButton extends React.Component {
 
     getClass =() => {
         const {linkParam, classChecker} = this.props;
-        if (linkParam == classChecker){
+        if (linkParam === classChecker){
             return "bg-warning text-light";
         }else{
             return"";

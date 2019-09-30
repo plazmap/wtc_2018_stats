@@ -7,7 +7,7 @@ import NotFound from "./NotFound";
 import Resulter from "./Resulter/Resulter";
 import Explorer from "./Explorer/Explorer";
 import Navbarplop from "./Navbarplop";
-import {createFlagTags, indexLists, indexPlayers, indexTeams, createRankingerData, createFactions, createThemes, createCasters, createCountries} from "./../DataHandlers";
+import {createFlagTags, createDataCountries, indexLists, indexPlayers, indexTeams, createRankingerData, createFactions, createThemes, createCasters, createCountries} from "./../DataHandlers";
 import Waiter from "./Waiter";
 import Rankinger from "./Rankinger/Rankinger";
 
@@ -29,6 +29,12 @@ class App extends React.Component {
           sortBy:"wins",
           data:{}
         },
+        explorer:{
+          countriesSelected:[],
+          teamsSelected:[],
+          playersSelected:[],
+          listsSelected:[]
+        },
         loadingDone: false
       }
     }
@@ -39,7 +45,7 @@ class App extends React.Component {
           let {teams, players, lists} = data;
           
           createFlagTags(teams); 
-
+          data["countries"] = createDataCountries(data);
           
           let factionsList = createFactions(data);
           let themesList = createThemes(data);
@@ -66,7 +72,7 @@ class App extends React.Component {
           listings.caster = castersList;
           listings.country = countriesList;
 
-          let loadingDone =true;
+          let loadingDone = true;
           this.setState({
             data,
             rankinger,
@@ -88,7 +94,7 @@ class App extends React.Component {
     updateResulterZones = zone => {
       let resulter = {...this.state.resulter};
       if (resulter.zonesSelected.includes(zone)){
-        resulter.zonesSelected = resulter.zonesSelected.filter(index => index != zone);
+        resulter.zonesSelected = resulter.zonesSelected.filter(index => index !== zone);
       }else{
         resulter.zonesSelected.push(zone);
       }
@@ -98,7 +104,7 @@ class App extends React.Component {
     updateResulterPlayers = key => {
       let resulter = {...this.state.resulter};
       if (resulter.playersSelected.includes(key)){
-        resulter.playersSelected = resulter.playersSelected.filter(index => index != key);
+        resulter.playersSelected = resulter.playersSelected.filter(index => index !== key);
       }else{
         resulter.playersSelected.push(key);
       }
@@ -118,6 +124,46 @@ class App extends React.Component {
       this.setState({rankinger})
     }
 
+    updateExplorerCountries = country => {
+      let explorer = {...this.state.explorer};
+      if (explorer.countriesSelected.includes(country)){
+        explorer.countriesSelected = explorer.countriesSelected.filter(index => index !== country);
+      }else{
+        explorer.countriesSelected.push(country);
+      }
+      this.setState({explorer});
+    }
+    
+    updateExplorerTeams = team => {
+      let explorer = {...this.state.explorer};
+      if (explorer.teamsSelected.includes(team)){
+        explorer.teamsSelected = explorer.teamsSelected.filter(index => index !== team);
+      }else{
+        explorer.teamsSelected.push(team);
+      }
+      this.setState({explorer});
+    }
+
+    updateExplorerPlayers = player => {
+       let explorer = {...this.state.explorer};
+      if (explorer.playersSelected.includes(player)){
+        explorer.playersSelected = explorer.playersSelected.filter(index => index !== player);
+      }else{
+        explorer.playersSelected.push(player);
+      }
+      this.setState({explorer});
+    }
+
+    updateExplorerLists = list => {
+       let explorer = {...this.state.explorer};
+      if (explorer.listsSelected.includes(list)){
+        explorer.listsSelected = explorer.listsSelected.filter(index => index !== list);
+      }else{
+        explorer.listsSelected.push(list);
+      }
+      this.setState({explorer});
+    }
+
     render(){
 
       if (this.state.loadingDone){
@@ -134,10 +180,10 @@ class App extends React.Component {
               updatePlayers={this.updateResulterPlayers}
             />
         )
-        const{typeSelected, sortBy} = this.state.rankinger;
-
-        const rankinger = () => (
-          <Rankinger
+        
+        const rankinger = () => {
+          const{typeSelected, sortBy} = this.state.rankinger;
+          return <Rankinger
             data={this.state.data} 
             typeSelected={typeSelected}
             changeType={this.changeRankingerType}
@@ -145,8 +191,25 @@ class App extends React.Component {
             sortBy={sortBy}
             changeSort ={this.changeRankingerSortBy}
           />
+        }
 
-        )
+        const explorer = () => {
+
+          const{countriesSelected, teamsSelected, playersSelected, listsSelected} = this.state.explorer;
+          
+          return <Explorer
+            data = {this.state.data} 
+            updateCountries = {this.updateExplorerCountries}
+            updateTeams = {this.updateExplorerTeams}
+            updatePlayers = {this.updateExplorerPlayers}
+            updateLists = {this.updateExplorerLists}
+            countriesSelected = {countriesSelected}
+            teamsSelected ={teamsSelected}
+            playersSelected ={playersSelected}
+            listsSelected ={listsSelected}
+          />
+        }
+
           return (
               <BrowserRouter>
                   <Navbarplop/>    
@@ -173,7 +236,7 @@ class App extends React.Component {
                       />
                       <Route 
                         exact path="/explorer" 
-                        component={Explorer}
+                        render={explorer}
                       />
                       <Route 
                         component={NotFound}
